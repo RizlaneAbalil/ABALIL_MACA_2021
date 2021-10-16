@@ -1,4 +1,4 @@
-package td1.original.refractor.api.macdeau;
+package main.java.td1.original.refractor.api.macdeau;
 import main.java.td1.original.refractor.api.general.FoodProduct;
 import main.java.td1.original.refractor.api.general.Burger;
 
