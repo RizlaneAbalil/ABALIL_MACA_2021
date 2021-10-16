@@ -1,0 +1,19 @@
+td1/original/api/general/Cheddar.java
+ td1.original.api.general.Cheddar
+td1/original/api/general/Burger.java
+ td1.original.api.general.Burger
+td1/original/api/general/Product.java
+ td1.original.api.general.Product
+td1/original/api/general/Sauce.java
+ td1.original.api.general.Sauce
+ td1.original.api.general.Sauce$SauceType
+td1/original/api/general/Meat.java
+ td1.original.api.general.Meat
+ td1.original.api.general.Meat$1
+ td1.original.api.general.Meat$MeatType
+td1/original/client/App.java
+ td1.original.client.App
+td1/original/api/general/Tomato.java
+ td1.original.api.general.Tomato
+td1/original/api/general/DeepFriedOnions.java
+ td1.original.api.general.DeepFriedOnions
