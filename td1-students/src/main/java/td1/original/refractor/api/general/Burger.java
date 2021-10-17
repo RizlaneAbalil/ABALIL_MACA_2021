@@ -2,12 +2,12 @@ package main.java.td1.original.refractor.api.general;
 
 import java.util.List;
 
-public class Burger implements Product {
+public abstract class Burger implements FoodProduct {
 
     String name;
     List<Product> items;
 
-    public Burger(String name, List<Product> items) {
+    public Burger(String name, List<FoodProduct> items) {
         this.name = name;
         this.items = items;
     }
@@ -24,7 +24,7 @@ public class Burger implements Product {
 
     @Override
     public double calories() {
-        return 0;
+        return items.stream().map(Product::calories).reduce(0.0, Double::sum);
     }
 
     @Override
@@ -39,5 +39,10 @@ public class Burger implements Product {
         buffer.append(String.format("price:         %.2f\n", price()));
         buffer.append(DELIM);
         return buffer.toString();
+    }
+
+    public double calories_per_100()
+    {
+        return calories() / 100 * weight();
     }
 }
