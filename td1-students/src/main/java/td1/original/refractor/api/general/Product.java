@@ -4,7 +4,4 @@ public interface Product {
     double weight();
 
     double price();
-
-    //Question 1
-    double calories();
 }
