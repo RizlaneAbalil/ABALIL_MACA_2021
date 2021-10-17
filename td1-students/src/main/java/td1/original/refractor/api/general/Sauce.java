@@ -1,16 +1,8 @@
 package main.java.td1.original.refractor.api.general;
 
-public class Sauce implements Product {
-
-    public static enum SauceType {
-        BURGER, BARBECUE, BEARNAISE;
-        // BURGER : 240 kcal / 100g
-        // BARBECUE : 130 kcal / 100g
-        // BEARNAISE : 550 kcal / 100g
-    }
+public class Sauce implements FoodProduct {
 
     private static double BASE_PRICE = 1;
-
     private SauceType type;
     private double weight;
 
@@ -32,5 +24,11 @@ public class Sauce implements Product {
     @Override
     public String toString() {
         return String.format("%s sauce (%.0fg) -- %.2f€", type, weight(), price());
+    }
+
+
+    @Override
+    public double calories_per_100g() {
+        return type.calories_per_100g();
     }
 }
