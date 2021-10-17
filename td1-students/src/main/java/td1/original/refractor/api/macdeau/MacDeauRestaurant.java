@@ -1,16 +1,13 @@
 package main.java.td1.original.refractor.api.macdeau;
 
-import main.java.td1.original.refractor.api.general.BurgerCook;
-import main.java.td1.original.refractor.api.general.MeatType;
-import main.java.td1.original.refractor.api.general.MenuType;
-import main.java.td1.original.refractor.api.general.Size;
+import main.java.td1.original.refractor.api.general.*;
 
 import static main.java.td1.original.refractor.api.general.MeatType.BEEF;
 import static main.java.td1.original.refractor.api.general.MeatType.WHITEFISH;
 import static main.java.td1.original.refractor.api.general.Size.MEDIUM;
 import static main.java.td1.original.refractor.api.general.Size.SMALL;
 
-public class MacDeauRestaurant {
+public class MacDeauRestaurant implements BurgerRestaurant {
 
     private static MacDeauRestaurant instance;
 
