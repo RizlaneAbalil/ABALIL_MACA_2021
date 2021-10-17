@@ -15,13 +15,13 @@ public class BigBurgerCook implements BurgerCook {
         switch (size)
         {
             case SMALL:
-                weight = 50;
-                break;
-            case MEDIUM:
                 weight = 100;
                 break;
-            default:
+            case MEDIUM:
                 weight = 200;
+                break;
+            default:
+                weight = 400;
                 break;
         }
         this.products = new ArrayList<>();
@@ -31,21 +31,21 @@ public class BigBurgerCook implements BurgerCook {
 
     @Override
     public BurgerCook with_cheese() {
-        Cheddar cheddar = new Cheddar(10);
+        Cheddar cheddar = new Cheddar(30);
         this.products.add(cheddar);
         return this;
     }
 
     @Override
     public BurgerCook with_onions() {
-        DeepFriedOnions deepFriedOnions = new DeepFriedOnions(10);
+        DeepFriedOnions deepFriedOnions = new DeepFriedOnions(20);
         this.products.add(deepFriedOnions);
         return this;
     }
 
     @Override
     public BurgerCook with_sauce(SauceType sauce) {
-        Sauce with_sauce = new Sauce(sauce, 40);
+        Sauce with_sauce = new Sauce(sauce, 20);
         this.products.add(with_sauce);
         return this;
     }
