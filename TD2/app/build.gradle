@@ -26,5 +26,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'td2.filesystem.App'
+    mainClass = 'main.java.td2.App'
 }

@@ -3,7 +3,11 @@
  */
 package main.java.td2;
 
-import main.java.td2.filesystem.*;
+import main.java.td2.filesystem.FSFactory;
+import main.java.td2.filesystem.Owner;
+import main.java.td2.filesystem.Composant;
+import main.java.td2.filesystem.ComposantType;
+import main.java.td2.filesystem.Composite;
 
 public class App {
     public String getGreeting() {
