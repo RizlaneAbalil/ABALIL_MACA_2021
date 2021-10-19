@@ -2,15 +2,15 @@ package main.java.td2.filesystem;
 
 public class FSFactory {
 
-    public final FSFactory instance = new FSFactory();
+    public static final FSFactory instance = new FSFactory();
 
     private FSFactory()
     {
     }
 
-    public FSFactory getInstance()
+    public static FSFactory getInstance()
     {
-        return this.instance;
+        return instance;
     }
 
     public Composant createComposant(ComposantType type, String name, Owner owner)
