@@ -1,0 +1,70 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Message
+{
+    -topic: string "final"
+    -contenu: string "final"
+    +sujet(): string
+    +toString(): string
+}
+class Salon
+{
+    -topic: string "final"
+    +sujet(): string
+    +toString(): string
+    +add(child: T): void
+    +remove(index: integer): void
+    +size(): integer
+}
+class Theme
+{
+    -topic: string "final"
+    +sujet(): string
+    +toString(): string
+    +add(child: T): void
+    +remove(index: integer): void
+    +size(): integer
+}
+class Forum
+{
+    -topic: string "final"
+    +sujet(): string
+    +toString(): string
+    +add(child: T): void
+    +remove(index: integer): void
+    +size(): integer
+}
+abstract class Conteneur<T>
+{
+    -topic: string "final"
+    +sujet(): string
+    +toString(): string
+    +add(child: T): void
+    +remove(index: integer): void
+    +size(): integer
+}
+interface Contenu<T>
+interface Composant
+{
+    +sujet(): string
+    +toString(): string
+}
+interface IConteneur
+{
+    +add(child: T): void
+    +remove(index: integer): void
+    +size(): integer
+}
+
+Composant <|.. Contenu
+Composant <|.. IConteneur
+Contenu <|.. Message
+Contenu <|.. Salon
+Contenu <|.. Theme
+Conteneur <-- Salon
+Conteneur <-- Theme
+Conteneur <-- Forum
+IConteneur <|..Conteneur
+
+@enduml
