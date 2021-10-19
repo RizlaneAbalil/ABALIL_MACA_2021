@@ -3,9 +3,10 @@ package main.java.td2.filesystem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Repertoire extends ComposantImpl implements Composite<Composant>{
+public class Repertoire extends ComposantImpl implements Composite<Composant>, Composant{
 
-    private List<Composant> children;
+    //On ne modifie plus la référence de children donc final
+    private final List<Composant> children;
 
     public Repertoire(String name, Owner owner) {
         super(name, owner);
@@ -56,5 +57,13 @@ public class Repertoire extends ComposantImpl implements Composite<Composant>{
     @Override
     public boolean removeChildren(List<Composant> t) {
         return this.children.removeAll(t);
+    }
+
+    public void setOwner(Owner owner, boolean recursive)
+    {
+        for(Composant c : children)
+        {
+            c.setOwner(owner, recursive);
+        }
     }
 }
