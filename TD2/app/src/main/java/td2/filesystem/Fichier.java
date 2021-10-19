@@ -1,6 +1,6 @@
 package main.java.td2.filesystem;
 
-public class Fichier extends ComposantImpl implements Composant{
+public final class Fichier extends ComposantImpl implements Composant{
 
     private StringBuilder content;
 
