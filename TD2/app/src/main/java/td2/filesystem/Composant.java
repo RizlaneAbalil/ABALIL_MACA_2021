@@ -9,7 +9,7 @@ public interface Composant {
 
     public int getSize();
 
-    public String getContent();
+    public StringBuilder getContent();
 
     public void appendContent(String name);
 
