@@ -1,4 +1,4 @@
-package TD3.commandes;
+package TD3.visitable;
 
 import TD3.visitors.Visitor;
 

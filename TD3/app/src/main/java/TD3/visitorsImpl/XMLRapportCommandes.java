@@ -1,11 +1,12 @@
-package TD3.visitors;
+package TD3.visitorsImpl;
 
 import TD3.commandes.Client;
 import TD3.commandes.Commande;
 import TD3.commandes.GroupeClient;
 import TD3.commandes.Ligne;
+import TD3.visitors.PrePostVisitor;
 
-public class XMLRapportCommandes implements PrePostVisitor{
+public class XMLRapportCommandes implements PrePostVisitor {
     @Override
     public void preVisit(GroupeClient groupeClient) {
 
