@@ -17,6 +17,10 @@ public class Client implements PrePostVisitable, Visitable {
         this.name=name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void addCommande(Commande commande)
     {
         this.commandes.put(commande.getName(), commande);
