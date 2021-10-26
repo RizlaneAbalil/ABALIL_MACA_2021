@@ -9,11 +9,15 @@ import java.util.List;
 
 public class Commande implements PrePostVisitable, Visitable {
     private String name;
-    List<Ligne> lignes;
+    private List<Ligne> lignes;
 
     public Commande(String name)
     {
         this.name=name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void addLigne(Ligne ligne)
