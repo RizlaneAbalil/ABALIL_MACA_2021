@@ -1,0 +1,18 @@
+Le client joe doit 800 euros.
+Le client bob doit 700 euros.
+<groupe>
+<client name="joe">
+<commande name="cde3">
+<ligne name="l4" sum=800 />
+</commande>
+</client>
+<client name="bob">
+<commande name="cde2">
+<ligne name="l3" sum=400 />
+</commande>
+<commande name="cde1">
+<ligne name="l1" sum=100 />
+<ligne name="l2" sum=200 />
+</commande>
+</client>
+</groupe>

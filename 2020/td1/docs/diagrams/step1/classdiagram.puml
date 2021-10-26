@@ -1,0 +1,86 @@
+@startuml td1_step1
+!include ../style/commons.style
+
+package step1.api.general {
+
+    interface Product {
+        weight(): double
+        price(): double
+    }
+
+    interface Food {
+        calories_per_100g(): double
+    }
+
+    interface FoodProduct extends Product, Food {
+        calories(): double <<default>>
+    }
+
+    enum SauceType implements Food {
+        BURGER, BARBECUE, BEARNAISE
+        + calories_per_100g(): double
+    }
+
+    enum MeatType implements Food {
+        BEEF, WHITEFISH
+        + price(): double
+        + calories_per_100g(): double
+    }
+
+    class Cheddar implements FoodProduct {
+        - weight: double
+        - {static} BASE_PRICE: double = 4
+        + this(weight: double)
+        + weight(): double
+        + price(): double
+        + calories_per_100g(): double
+    }
+
+    class DeepFriedOnions implements FoodProduct {
+        - weight: double
+        - {static} BASE_PRICE: double = 1.5
+        + this(weight: double)
+        + weight(): double
+        + price(): double
+        + calories_per_100g(): double
+    }
+
+    class Tomato implements FoodProduct {
+        - weight: double
+        - {static} BASE_PRICE: double = 0.5
+        + this(weight: double)
+        + weight(): double
+        + price(): double
+        + calories_per_100g(): double
+    }
+
+    class Sauce implements FoodProduct {
+        - weight: double
+        - {static} BASE_PRICE: double = 1
+        + this(type: SauceType, weight: double)
+        + weight(): double
+        + price(): double
+        + calories_per_100g(): double
+    }
+    Sauce *--> "-type" SauceType
+
+    class Meat implements FoodProduct {
+        - weight: double
+        + this(type: MeatType, weight: double)
+        + weight(): double
+        + price(): double
+        + calories_per_100g(): double
+    }
+    Meat *--> "-type" MeatType
+
+    class Burger implements FoodProduct {
+        - name: string
+        + this(name: string, items: List<FoodProduct>)
+        + weight(): double
+        + price(): double
+        + calories_per_100g(): double
+        + calories(): double
+    }
+    Burger *-> "-items *" FoodProduct
+}
+@enduml

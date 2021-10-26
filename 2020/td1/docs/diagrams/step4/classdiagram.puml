@@ -1,0 +1,128 @@
+@startuml td1_step4
+!include ../style/commons.style
+
+package step4 {
+
+    package api {
+
+    package dietetic {
+
+        interface DieteticElement {
+            calories_per_100g(): double
+        }
+
+    }
+
+    package monetary {
+
+        interface Product {
+            price(): double
+        }
+
+    }
+
+    package restauration {
+
+        interface Food {
+            weight(): double
+            calories(): double <<default>>
+        }
+        Food -up-|> DieteticElement
+        Food -up-|> Product
+
+        interface Base extends DieteticElement, Product {
+            hasUniquePrice(): bool
+        }
+
+        interface ComposedFood extends Food {
+            add(base: Base, weight: double)
+        }
+
+        class Ingredient implements Food {
+            - weight: double
+            + this(base: Base, weight: double)
+            + calories_per_100g(): double
+            + weight(): double
+            + ^calories(): double
+            + price(): double
+        }
+        Ingredient *--> "-base 1" Base
+
+        abstract class Recipe implements ComposedFood {
+            - name: string
+            + this(name: string)
+            + name(): string
+            + add(base: Base, weight: double)
+            + calories_per_100g(): double
+            + weight(): double
+            + calories(): double
+            + price(): double
+        }
+        Recipe *-> "- ingredients *" Food
+
+    }
+
+    package burger {
+
+        enum BurgerBase {
+            BURGER, BARBECUE, BEARNAISE,
+            BEEF, WHITEFISH,
+            CHEDDAR, DEEPFRIEDONIONS, TOMATO
+            + calories_per_100g(): double
+            + price(): double
+            + hasUniquePrice(): bool
+        }
+        BurgerBase -|> Base
+
+        class Burger {
+            ~ this(name: string)
+        }
+        Burger -|> Recipe
+
+        enum MenuType {
+            MEAT_MENU, FISH_MENU, CHEESE_MENU
+        }
+
+        enum MenuSize {
+            SMALL, MEDIUM, BIG
+            + meatWeight(): double
+        }
+
+        class BurgerBuilder {
+            - name: string
+            - this()
+            + {static} order_menu(name: string, type: MenuType): BurgerBuilder
+            + {static} order_beef(name: string, size: MenuSize): BurgerBuilder
+            + {static} order_fish(name: string, size: MenuSize): BurgerBuilder
+            + with_barbecue_sauce(): BurgerBuilder
+            + with_bearnaise_sauce(): BurgerBuilder
+            + with_burger_sauce(): BurgerBuilder
+            + with_cheddar(): BurgerBuilder
+            + with_onions(): BurgerBuilder
+            + with_tomato(): BurgerBuilder
+            + cook(): ComposedFood
+        }
+        BurgerBuilder ..> BurgerBase
+        BurgerBuilder .> Burger : <<creates>>
+        BurgerBuilder .up.> MenuSize
+        BurgerBuilder .up.> MenuType
+        BurgerBuilder ..> ComposedFood
+
+    }
+    }
+
+    package client {
+
+        class App {
+            + {static} main(args: string[*]): void
+        }
+        App .> MenuSize
+        App .> MenuType
+        App .> BurgerBuilder
+        App .> Food
+
+    }
+
+}
+
+@enduml

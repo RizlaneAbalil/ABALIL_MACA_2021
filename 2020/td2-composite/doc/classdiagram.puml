@@ -1,0 +1,103 @@
+@startuml td2
+!include commons.style
+
+package td2.filesystem {
+
+    enum ComposantType {
+        FICHIER, REPERTOIRE
+    }
+
+    interface Composant <<Composite>> #MistyRose {
+        getName(): string
+        getOwner(): Owner
+        setOwner(owner: Owner, recursive: bool): void
+        ..
+        getSize(): integer
+        getContent(): string
+        appendContent(name: string): void
+        ..
+        isComposite(): bool
+    }
+
+    interface Composite<T> {
+        getChildren(): List<T>
+        addChild(t: T): void
+        removeChild(t: T): bool
+        removeChildren(t: List<T>): bool
+    }
+
+    abstract class ComposantImpl {
+        - name: string <<final>>
+        --
+        + this(name: string, owner: Owner): ComposantImpl
+        ..
+        + getName(): string
+        + getOwner(): Owner
+        + setOwner(owner: Owner owner, recursive: bool): void
+        ..
+        + equals(o: Object): bool
+        + hashCode(): int
+    }
+    ComposantImpl *--> "-1 owner" Owner
+    Composant <|.. ComposantImpl
+
+    class Fichier #MistyRose {
+        - content: StringBuilder
+        --
+        ~ this(name: string, owner: Owner): Fichier
+        ..
+        + getSize(): integer
+        + getContent(): string
+        + appendContent(content: string): void
+        ..
+        + isComposite(): bool
+        ..
+        + toString(): string
+    }
+    ComposantImpl <|-- Fichier
+    Composant <|.. Fichier
+
+    class Repertoire #MistyRose {
+        ~ this(String name, Owner owner): Repertoire
+        ..
+        + setOwner(Owner owner, boolean recursive): void
+        ..
+        + getSize(): integer
+        + getContent(): string
+        + appendContent(name: string): void
+        ..
+        + getChildren(): List<Composant>
+        + addChild(composant: Composant): void
+        + removeChild(composant Composant): bool
+        + removeChildren(t: List<Composant>): bool
+        ..
+        + isComposite(): bool
+        ..
+        + toString(): string
+    }
+    ComposantImpl <|-- Repertoire
+    Composant <|.. Repertoire
+    Composite <|.. Repertoire
+    Composant "* -children" <--* Repertoire
+
+    class Owner {
+        - name: string <<final>>
+        --
+        + this(name: string): Owner
+        ..
+        + equals(o: Object): bool
+        + hashCode(): int
+    }
+
+    class FSFactory <<Factory, Singleton>> #TECHNOLOGY {
+        + {static} INSTANCE: FSFactory = new FSFactory() <<final>>
+        - this(): FSFactory
+        + {static} getInstance(): FSFactory
+        + createComposant(type: ComposantType, name: string, owner: Owner): Composant
+    }
+    FSFactory ..> Composant : <<creates>>
+    FSFactory ..> ComposantType
+
+}
+
+@enduml

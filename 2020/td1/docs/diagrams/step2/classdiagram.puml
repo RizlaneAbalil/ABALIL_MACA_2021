@@ -1,0 +1,73 @@
+@startuml td1_step2
+!include ../style/commons.style
+
+package step2.api {
+
+    package food {
+
+        interface Food {
+            calories_per_100g(): double
+        }
+
+    }
+
+    package money {
+
+        interface Product {
+            price(): double
+        }
+
+    }
+
+    package restauration {
+
+        interface FoodProduct extends Food, Product {
+            hasUniquePrice(): bool
+        }
+
+        interface WeightedFoodProduct {
+            weight(): double
+            calories(): double <<default>>
+        }
+        WeightedFoodProduct -|> FoodProduct
+
+    }
+
+    package burger {
+
+        enum FoodType implements FoodProduct {
+            BURGER, BARBECUE, BEARNAISE,
+            BEEF, WHITEFISH,
+            CHEDDAR, DEEPFRIEDONIONS, TOMATO
+            + calories_per_100g(): double
+            + price(): double
+            + hasUniquePrice(): bool
+        }
+
+        class Ingredient implements WeightedFoodProduct {
+            - weight: double
+            + this(type: FoodType, weight: double)
+            + calories_per_100g(): double
+            + weight(): double
+            + ^calories(): double
+            + price(): double
+            + hasUniquePrice(): bool
+        }
+        Ingredient *-> "-type 1" FoodType
+
+        class Burger implements WeightedFoodProduct {
+            - name: string
+            + this(name: string, items: List<Ingredient>)
+            + name(): string
+            + calories_per_100g(): double
+            + weight(): double
+            + calories(): double
+            + price(): double
+            + hasUniquePrice(): bool
+        }
+        Burger *-> "-items *" Ingredient
+
+    }
+
+}
+@enduml

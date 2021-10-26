@@ -1,0 +1,74 @@
+@startuml td1_step3
+!include ../style/commons.style
+
+package step3.api {
+
+    package dietetic {
+
+        interface DieteticElement {
+            calories_per_100g(): double
+        }
+
+    }
+
+    package monetary {
+
+        interface Product {
+            price(): double
+        }
+
+    }
+
+    package restauration {
+
+        interface Food extends DieteticElement, Product {
+            weight(): double
+            calories(): double <<default>>
+        }
+
+        interface Base extends DieteticElement, Product {
+            hasUniquePrice(): bool
+        }
+
+        class Ingredient implements Food {
+            - weight: double
+            + this(base: Base, weight: double)
+            + calories_per_100g(): double
+            + weight(): double
+            + ^calories(): double
+            + price(): double
+        }
+        Ingredient *--> "-base 1" Base
+
+        abstract class Recipe implements Food {
+            - name: string
+            + this(name: string, ingredients: List<Ingredient>)
+            + name(): string
+            + calories_per_100g(): double
+            + weight(): double
+            + calories(): double
+            + price(): double
+        }
+        Recipe *-> "- ingredients *" Ingredient
+
+    }
+
+    package burger {
+
+        enum BurgerBase implements Base {
+            BURGER, BARBECUE, BEARNAISE,
+            BEEF, WHITEFISH,
+            CHEDDAR, DEEPFRIEDONIONS, TOMATO
+            + calories_per_100g(): double
+            + price(): double
+            + hasUniquePrice(): bool
+        }
+
+        class Burger extends Recipe {
+            + this(name: string, ingredients: List<Ingredient>)
+        }
+
+    }
+
+}
+@enduml

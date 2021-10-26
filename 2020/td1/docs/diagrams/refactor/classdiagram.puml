@@ -1,0 +1,218 @@
+@startuml td1_refactor
+!include ../style/commons.style
+
+package refactor {
+
+    package api {
+
+    package general {
+
+        interface Product {
+            weight(): double
+            price(): double
+        }
+
+        interface FoodConstituent {
+            calories_per_100g(): double
+        }
+
+        interface FoodProduct extends FoodConstituent, Product {
+            calories(): double <<default>>
+        }
+
+        enum SauceType implements FoodConstituent {
+            BURGER, BARBECUE, BEARNAISE
+            + calories_per_100g(): double
+        }
+
+        enum MeatType implements FoodConstituent {
+            BEEF, WHITEFISH
+            + calories_per_100g(): double
+            + price(): double
+        }
+
+        enum MenuType {
+            MEAT_MENU, FISH_MENU, CHEESE_MENU
+        }
+
+        enum Size {
+            SMALL, MEDIUM, BIG
+        }
+
+        enum Tariff {
+            CHEAP, EXPENSIVE
+        }
+
+        class Cheddar implements FoodProduct {
+            - {static} BASE_PRICE: double = 4
+            - weight: double
+            + this(weight: double): Cheddar
+            + calories_per_100g(): double
+            + weight(): double
+            + price(): double
+        }
+
+        class DeepFriedOnions implements FoodProduct {
+            - {static} BASE_PRICE: double = 1.5
+            - weight: double
+            + this(weight: double): DeepFriedOnions
+            + calories_per_100g(): double
+            + weight(): double
+            + price(): double
+        }
+
+        class Meat implements FoodProduct {
+            - weight: double
+            + this(type: MeatType, weight: double): Meat
+            + calories_per_100g(): double
+            + weight(): double
+            + price(): double
+        }
+        Meat *--> "-type" MeatType
+
+        class Sauce implements FoodProduct {
+            - {static} BASE_PRICE: double = 1
+            - weight: double
+            + this(type: SauceType, weight: double): Sauce
+            + calories_per_100g(): double
+            + weight(): double
+            + price(): double
+        }
+        Sauce *--> "-type" SauceType
+
+        class Tomato implements FoodProduct {
+            - {static} BASE_PRICE: double = 0.5
+            - weight: double
+            + this(weight: double): Tomato
+            + calories_per_100g(): double
+            + weight(): double
+            + price(): double
+        }
+
+        abstract class Burger #TECHNOLOGY implements FoodProduct {
+            - name: string
+            ~  this(name: string, items: List<FoodProduct>): Burger
+            + calories_per_100g(): double
+            + calories(): double
+            + weight(): double
+            + price(): double
+        }
+        Burger *-> "-items *" FoodProduct
+
+        interface BurgerRestaurant <<Factory>> #TECHNOLOGY {
+            order_menu(menu: MenuType): BurgerCook
+            order_personal(size: Size, type: MeatType): BurgerCook
+        }
+
+        interface BurgerCook <<Builder>> #TECHNOLOGY {
+            with_cheese(): BurgerCook
+            with_onions(): BurgerCook 
+            with_sauce(SauceType sauce): BurgerCook
+            with_tomato(): BurgerCook 
+            cook(): Burger
+        }
+
+        class BurgerAdvisor <<Factory, Singleton>> #TECHNOLOGY {
+            - {static} instance: BurgerBuilderFactory
+            - {static} registry: Map<Tariff, List<BurgerRestaurant>>
+            - this(): BurgerBuilderFactory
+            + {static} instance(): BurgerBuilderFactory
+            + {static} register(tariff: Tariff, restaurant: BurgerRestaurant): void
+            + select(tariff: Tariff): BurgerRestaurant
+        }
+
+    }
+
+    package macdeau {
+
+        class MacDeauCook <<Builder>> #TECHNOLOGY implements BurgerCook {
+            - name: string
+            - products: List<FoodProduct>
+            ~ this(name: string, size: Size, type: MeatType): MacDeauCook
+            + with_cheese(): BurgerCook
+            + with_onions(): BurgerCook
+            + with_sauce(sauce: SauceType): BurgerCook
+            + with_tomato(): BurgerCook
+            + cook(): Burger
+        }
+        MacDeauCook .> Size #Red
+        MacDeauCook .> Cheddar #Red
+        MacDeauCook .> DeepFriedOnions #Red
+        MacDeauCook .> Meat #Red
+        MacDeauCook .> Sauce #Red
+        MacDeauCook .> Tomato #Red
+        MacDeauCook ..> MacDeauBurger : <<creates>>
+
+        class MacDeauBurger #TECHNOLOGY extends Burger {
+            ~ this(name: String, items: List<FoodProduct>): MacDeauBurger
+        }
+
+        class MacDeauRestaurant <<Factory, Singleton>> #TECHNOLOGY implements BurgerRestaurant {
+            - {static} instance: MacDeauRestaurant
+            - this(): MacDeauRestaurant
+            + {static} queue(): MacDeauRestaurant
+            + order_menu(menu: MenuType): BurgerCook
+            + order_personal(size: Size, type: MeatType): BurgerCook
+        }
+        MacDeauRestaurant ..> MacDeauCook : <<creates>>
+        MacDeauRestaurant ..> MenuType #Red
+
+    }
+
+    package bigburger {
+
+        class BigBurgerCook <<Builder>> #TECHNOLOGY implements BurgerCook {
+            - name: string
+            - products: List<FoodProduct>
+            ~ this(name: string, size: Size, type: MeatType): BigBurgerCook
+            + with_cheese(): BurgerCook
+            + with_onions(): BurgerCook
+            + with_sauce(sauce: SauceType): BurgerCook
+            + with_tomato(): BurgerCook
+            + cook(): Burger
+        }
+        BigBurgerCook .> Size #Red
+        BigBurgerCook .> Cheddar #Red
+        BigBurgerCook .> DeepFriedOnions #Red
+        BigBurgerCook .> Meat #Red
+        BigBurgerCook .> Sauce #Red
+        BigBurgerCook .> Tomato #Red
+        BigBurgerCook ..> BigBurgerBurger : <<creates>>
+
+        class BigBurgerBurger #TECHNOLOGY extends Burger {
+            ~ this(name: String, items: List<FoodProduct>): BigBurgerBurger
+        }
+
+        class BigBurgerRestaurant <<Factory, Singleton>> #TECHNOLOGY implements BurgerRestaurant {
+            - {static} instance: BigBurgerRestaurant
+            - this(): BigBurgerRestaurant
+            + {static} queue(): BigBurgerRestaurant
+            + order_menu(menu: MenuType): BurgerCook
+            + order_personal(size: Size, type: MeatType): BurgerCook
+        }
+        BigBurgerRestaurant ..> BigBurgerCook : <<creates>>
+        BigBurgerRestaurant ..> MenuType #Red
+
+    }
+    }
+
+    package client {
+
+        class App {
+            + {static} main(args: string[*]): void
+        }
+        App ..> BurgerAdvisor
+        App ..> MacDeauRestaurant #Red
+        App ..> BigBurgerRestaurant #Red
+        App ..> Burger
+        App ..> Tariff
+        App ..> Size
+        App ..> MenuType
+        App ..> MeatType
+        App ..> SauceType
+
+    }
+
+}
+
+@enduml

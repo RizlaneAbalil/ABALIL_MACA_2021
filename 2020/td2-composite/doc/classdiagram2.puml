@@ -1,0 +1,64 @@
+@startuml td2_forum_v1
+!include commons.style
+
+package td2.forum.v1 {
+
+    class Message {
+        - topic: string <<final>>
+        - contenu: string <<final>>
+        --
+        + this(topic: string, contenu: string): Message
+        ..
+        + sujet(): string
+        ..
+        + toString(): string
+    }
+
+    class Salon {
+        - topic: string <<final>>
+        --
+        + this(topic: string): Salon
+        ..
+        + sujet(): string
+        ..
+        + add(child: Message): void
+        + remove(index: integer): void
+        + size(): integer
+        ..
+        + toString(): string
+    }
+    Salon *-> "- children *" Message
+
+    class Theme {
+        - topic: string <<final>>
+        --
+        + this(topic: string): Theme
+        ..
+        + sujet(): string
+        ..
+        + add(child: Salon): void
+        + remove(index: integer): void
+        + size(): integer
+        ..
+        + toString(): string
+    }
+    Theme *-> "- children *" Salon
+
+    class Forum {
+        - topic: string <<final>>
+        --
+        + this(topic: string): Theme
+        ..
+        + sujet(): string
+        ..
+        + add(child: Theme): void
+        + remove(index: integer): void
+        + size(): integer
+        ..
+        + toString(): string
+    }
+    Forum *-> "- children *" Theme
+
+}
+
+@enduml

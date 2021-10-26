@@ -1,0 +1,81 @@
+@startuml td2_forum_v2
+!include commons.style
+
+package td2.forum.v2 {
+
+    interface IForumObject #MistyRose {
+        sujet(): string
+        contenu(): string
+        typeRepr(): string
+        repr(): string <<default>>
+    }
+
+    interface IContenu<T> #MistyRose extends IForumObject {
+    }
+
+    interface IConteneur<T extends IContenu<T>> #MistyRose extends IForumObject {
+        add(child: IContenu<T>): void
+        remove(index: integer): void
+        size(): integer
+    }
+
+    abstract class Conteneur<T extends IContenu<T>> #MistyRose {
+        - sujet: string
+        --
+        + this(sujet: string): Conteneur
+        ..
+        + sujet(): string
+        + contenu(): string
+        ..
+        + add(child: IContenu<T>): void
+        + remove(index: integer): void
+        + size(): integer
+        ..
+        + toString(): string
+    }
+    Conteneur *-right> "- children *" IContenu
+    Conteneur .left|> IConteneur : <T>
+
+    class Message #MistyRose {
+        - sujet: string <<final>>
+        - contenu: string <<final>>
+        --
+        + this(sujet: string, contenu: string): Message
+        ..
+        + sujet(): string
+        + contenu(): string
+        + typeRep(): string
+        ..
+        + toString(): string
+    }
+    Message .up.|> IContenu : <Message>
+
+    class Salon #MistyRose {
+        + this(sujet: string): Salon
+        ..
+        + typeRepr(): string
+    }
+    Salon -up-|> Conteneur : <Message>
+    Salon .up.|> IContenu : <Salon>
+    Salon .up.|> IConteneur : <Message>
+
+    class Theme #MistyRose {
+        + this(sujet: string): Theme
+        ..
+        + typeRepr(): string
+    }
+    Theme -up-|> Conteneur : <Salon>
+    Theme .up.|> IContenu : <Theme>
+    Theme .up.|> IConteneur : <Salon>
+
+    class Forum #MistyRose {
+        + this(topic: string): Forum
+        ..
+        + typeRepr(): string
+    }
+    Forum -up-|> Conteneur : <Theme>
+    Forum .up.|> IConteneur : <Theme>
+
+}
+
+@enduml
