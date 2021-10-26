@@ -5,11 +5,11 @@ import TD3.visitable.Visitable;
 import TD3.visitors.PrePostVisitor;
 import TD3.visitors.Visitor;
 
-import java.util.List;
+import java.util.Map;
 
 public class GroupeClient implements PrePostVisitable, Visitable {
     private String name;
-    private List<Client> clients ;
+    private Map<String, Client> clients ;
 
     public GroupeClient(String name)
     {
@@ -18,19 +18,19 @@ public class GroupeClient implements PrePostVisitable, Visitable {
 
     public void addClient(Client client)
     {
-        this.clients.add(client);
+        this.clients.put(client.getName(), client);
     }
 
     public void addCommande(String name, Commande commande)
     {
-        this.name=name;
-        this.clients.addCommande(commande);
+        Client tmp = this.clients.get(name);
+        tmp.addCommande(commande);
     }
 
     public void addLigne(String name, String nameL, Ligne ligne)
     {
-        this.name = name;
-        this.clients.addLigne(nameL, ligne);
+        Client tmp = this.clients.get(name);
+        tmp.addLigne(nameL, ligne);
     }
 
     @Override
