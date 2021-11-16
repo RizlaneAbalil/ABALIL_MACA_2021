@@ -27,6 +27,11 @@ public class Ampoule {
         this.usage ++;
     }
 
+    public int getUsage()
+    {
+        return this.usage;
+    }
+
     public int getUsageMax()
     {
         return this.usageMax;
