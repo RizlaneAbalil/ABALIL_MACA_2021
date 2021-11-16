@@ -5,6 +5,7 @@ import TD3.visitable.Visitable;
 import TD3.visitors.PrePostVisitor;
 import TD3.visitors.Visitor;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Commande implements PrePostVisitable, Visitable {

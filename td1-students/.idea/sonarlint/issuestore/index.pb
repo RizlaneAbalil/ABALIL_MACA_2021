@@ -27,3 +27,11 @@ b
 2src/main/java/td1/original/api/general/Tomato.java,d/e/de0fcf0a02645af8e9224b605581073bb9db054b
 ;
 gradlew.bat,2/a/2a45a911a8f1836b0b6c5b758962572012d8f8c3
+q
+Asrc/main/java/td1/original/refractor/api/macdeau/MacDeauCook.java,b\b\bb521cdc4fdd2b3580a572782179010155e300a9
+s
+Csrc/main/java/td1/original/refractor/api/macdeau/MacDeauBurger.java,7\4\742a69bd6c7e82e7e8babe5d8652928dc0bdd2d3
+w
+Gsrc/main/java/td1/original/refractor/api/macdeau/MacDeauRestaurant.java,d\e\de82d69110f92a1cddf62d851895f66b634eeff6
+d
+4src/main/java/td1/original/refractor/client/App.java,6\9\6972e45089ab54494cfd67e5ae3ed277b665716c
