@@ -40,6 +40,7 @@ public class VendingMachineStateBegin extends VendingMachineState{
 
     @Override
     public int getRefund(VendingMachineContext c) throws IncorrectStateException {
-        return 0;
+        c.setCash(0);
+        return c.getCash();
     }
 }
