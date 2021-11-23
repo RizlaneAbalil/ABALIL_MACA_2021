@@ -36,4 +36,6 @@ public class Ampoule {
     {
         return this.usageMax;
     }
+
+    //AJOUTER LES 3 METHODES
 }

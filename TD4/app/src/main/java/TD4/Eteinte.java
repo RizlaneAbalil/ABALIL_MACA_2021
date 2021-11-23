@@ -9,17 +9,24 @@ public class Eteinte extends AmpouleEtat{
 
     @Override //GONEXT()
     public void allumer(Ampoule a) {
-        context.setState(new Allumee(a));
+        if(a.getUsage()+1 <= a.getUsageMax())
+        {
+            a.setState(new Allumee(a));
+        }
+        System.out.println("L'ampoule est allumée");
     }
 
     @Override
     public void eteindre(Ampoule a) {
-        context.setState(new Eteinte(a));
-
+        System.out.println("L'ampoule est déjà éteinte");
     }
 
     @Override
     public void cassee(Ampoule a) {
-        context.setState(new Cassee(a));
+        if(a.getUsage()+1 > a.getUsageMax())
+        {
+            a.setState(new Cassee(a));
+        }
+        System.out.println("L'ampoule est cassée");
     }
 }

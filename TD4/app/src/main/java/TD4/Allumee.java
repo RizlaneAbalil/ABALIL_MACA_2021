@@ -8,12 +8,13 @@ public class Allumee extends AmpouleEtat{
     }
     @Override
     public void allumer(Ampoule a) {
-        //GARDE
+        System.out.println("L'ampoule est déjà allumée");
     }
 
     @Override
     public void eteindre(Ampoule a) {
-
+        a.setState(new Eteinte(a));
+        System.out.println("L'ampoule est éteinte");
     }
 
     @Override
