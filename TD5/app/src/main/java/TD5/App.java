@@ -3,6 +3,8 @@
  */
 package TD5;
 
+import TD5.Factory.Creator;
+import TD5.context.IUnite;
 import TD5.context.Unite;
 import TD5.strategyA.Courir;
 import TD5.strategyB.LanceFlamme;
@@ -10,6 +12,8 @@ import TD5.strategyB.LanceFlamme;
 import java.util.List;
 
 public class App {
+    private static Creator creator;
+
     public String getGreeting() {
         return "Hello World!";
     }
@@ -17,7 +21,9 @@ public class App {
     public static void main(String[] args)
     {
         //Fort couplage - Mettre en place Factory
-       Unite unite = new Unite();
+       //Unite unite = new Unite()
+
+        IUnite unite = creator.creerUnite();
 
        unite.setDeplacement(new Courir());
        unite.seDeplacer();

@@ -3,7 +3,7 @@ package TD5.context;
 import TD5.strategyA.Deplacement;
 import TD5.strategyB.Attaque;
 
-public class Unite {
+public class Unite implements IUnite{
     public Deplacement deplacement;
     public Attaque attaque;
 
